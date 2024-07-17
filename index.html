@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href = "css/styles.css" rel = "stylesheet">
+    <script src="scripts/scripts_sidebar.js"></script>
+    <script src="scripts/scripts_record_player.js"></script>
+    <script src="scripts/data.js"></script>
+    <link rel="icon" href="img/record.ico">
+</head>
+<body>
+    <nav id="sidebar" onmouseover="expandSidebar()" class="sidebar">
+    </nav>
+    <div id="player" class="record_player">
+        <div id="record_player">
+            <div id="tone_arm">
+                <div id="control"></div>
+            </div>
+            <button id="btn_play"></button>
+            <label for="slider_volume"></label>
+            <input id="slider_volume" type="range" min="0" max="1" step="0.01" value="0.7"/>
+        </div>
+    </div>
+</body>
+</html>
