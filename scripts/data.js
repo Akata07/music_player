@@ -1,5 +1,5 @@
 const items = [
-    {id: 'bmth', icon: '../img/bmth/bmth_logo.png', text: 'BMTH', children:
+    {id: 'bmth', icon: 'img/bmth/bmth_logo.png', text: 'BMTH', children:
             [
                 { id: 'Post_Human:_Nex_Gen', icon: 'img/bmth/post_human_nex_gen.png', text: 'Post Human: Nex Gen', albumLength: 3327.071, children:
                         [
