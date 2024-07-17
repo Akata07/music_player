@@ -529,19 +529,6 @@ function findItemById(id, items)
 
 function getNumberFromId(id)
 {
-    /*if(id === "items_main")
-    {
-        return 0;
-    }
-    const match = id.match(/sub-menu_(\d+)/);
-    if (match)
-    {
-        return parseInt(match[1], 10);
-    }
-    else
-    {
-        throw new Error('Invalid ID format');
-    }*/
     let item = document.getElementById(id);
     let foundItem;
     if(!item)
@@ -653,8 +640,8 @@ function startSong()
         }
         removePlayOverlay();
         addPlayOverlay(song[currentSource].src);
-        console.log("Total length: " + currentLength);
-        console.log("Song " + findItemFromSong(song[currentSource].src, items).id + " length: " + song[currentSource].duration)
+        /*console.log("Total length: " + currentLength);
+        console.log("Song " + findItemFromSong(song[currentSource].src, items).id + " length: " + song[currentSource].duration)*/
         currentLength += song[currentSource].duration;
         nextSong = getNextSong();
         preloadSong(nextSong);
@@ -700,7 +687,6 @@ function seekedEventListener()
         }
         rotateTimeout = setTimeout(() =>
         {
-            console.log("Cant rotate");
             pauseRotation();
         }, (song[currentSource].duration - song[currentSource].currentTime - 0.005)*1000)
     }
