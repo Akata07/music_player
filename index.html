@@ -6,6 +6,7 @@
     <link href = "css/styles.css" rel = "stylesheet">
     <script src="scripts/scripts_sidebar.js"></script>
     <script src="scripts/scripts_record_player.js"></script>
+    <script src="scripts/script_settings.js"></script>
     <script src="scripts/data.js"></script>
     <link rel="icon" href="img/record.ico">
 </head>
@@ -20,6 +21,17 @@
             <button id="btn_play"></button>
             <label for="slider_volume"></label>
             <input id="slider_volume" type="range" min="0" max="1" step="0.01" value="0.7"/>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="info_controls">
+            <div id="info"></div>
+            <div id="controls"></div>
+        </div>
+        <div id="progressInfo">
+            <div id="textCurrentTime" class="textTime">--:--</div>
+            <progress id="audioProgress" value="0" max="100"></progress>
+            <div id="textTotalTime" class="textTime">--:--</div>
         </div>
     </div>
 </body>
