@@ -1,12 +1,11 @@
-let debug = false;
 
 let sidebar;
 
 let sidebarExpanded = false;
 let hoverItem = null;
 
-const widthMenu = "250px";
-const widthMenuInt = 250;
+const widthMenu = "25vh";
+const widthMenuInt = 25;
 
 let lastSong;
 let song = [];
@@ -20,9 +19,20 @@ let changeRecord;
 //Options: 'album', 'artist', 'library' and 'none'
 let repeatMode = 'album';
 
+let footer;
+let progressBar;
+
 document.addEventListener('DOMContentLoaded', function() {
 
     sidebar = document.getElementById('sidebar')
+
+    footer = document.getElementById('footer');
+
+    progressBar = document.getElementById('audioProgress');
+
+    sidebar.style.width = '7vh';
+
+    footer.style.width = 'calc(100vw - 7vh)';
 
     function createMainMenu()
     {
@@ -35,25 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 song[i] = document.createElement('audio');
                 song[i].id = 'audioPlayer' + i;
                 song[i].preload = 'auto';
-                if(debug)
-                {
-                    song[i].addEventListener('playing', ()=> {
-                        let endTime = performance.now();
-                        let delay = endTime - startTime;
-                        if(delay < 10)
-                        {
-                            if(skipped)
-                            {
-                                console.log("Delay after skip: " + Math.round((endTime - timeSkipped)*100)/100  +"ms")
-                                skipped = false;
-                            }
-                            console.log("The Delay is: " + (Math.round(delay*100000))/100 + "us");
-                            console.log("Total delay: " + (Math.round((endTime - startTime2) * 100000))/100 + "us");
-                            console.log("Delta: " + (Math.round(((endTime - startTime2) * 100000) - (delay * 100000)))/100 + "us");
-                            console.log("Delay from Rotation: " + (endTime - rotationTime));
-                        }
-                    })
-                }
             }
             else
             {
@@ -168,7 +159,7 @@ function expandSidebar()
         item.style.width = widthMenu;
     });
 
-    if(parseInt(sidebar.style.width, 10) < 250)
+    if(parseInt(sidebar.style.width, 10) < 25)
     {
         sidebar.style.width = widthMenu;
     }
@@ -176,7 +167,7 @@ function expandSidebar()
     sidebar.addEventListener("transitionend", () => {
         sidebarExpanded = true;
     });
-
+    footer.style.width = 'calc(100vw - ' + sidebar.style.width + ")";
 }
 
 function collapseSidebar()
@@ -188,14 +179,17 @@ function collapseSidebar()
     let children = Array.from(sidebar.querySelectorAll('li'));
 
     children.forEach(item => {
-        item.style.width = '70px';
+        item.style.width = '7vh';
+        footer.style.width = 'calc(100vw - 7vh)';
+        footer.style.width = '93vh'
         const container = item.querySelector('.container_sidebar');
         if(container)
         {
             container.classList.remove('selected');
         }
     });
-    sidebar.style.width = '70px';
+    sidebar.style.width = '7vh';
+    footer.style.width = 'calc(100vw - 7vh)';
 
     sidebar.addEventListener("transitionend", () => {
         sidebarExpanded = false;
@@ -214,6 +208,8 @@ function hideSubMenu(menuNr)
 function createMenuItem(item)
 {
     const li = document.createElement('li');
+    let textDuration;
+    let hasDuration = false;
     li.id = item.id;
     li.classList.add('item');
 
@@ -225,6 +221,28 @@ function createMenuItem(item)
     const img = document.createElement('img');
     img.src = item.icon;
     let imgSRC = getImageFromObject(item);
+
+    if(findIndexPath(item, items).depth === 0)
+    {
+        div.style.padding = '1.9vh 0 1.9vh 0.9vh';
+    }
+    else
+    {
+        div.style.padding = '0.9vh 0 1.9vh 0.9vh';
+        textDuration = document.createElement('p');
+        textDuration.classList.add('textDuration');
+        if(item.albumLength)
+        {
+            hasDuration = true;
+            textDuration.textContent = makeStringFromTime(item.albumLength);
+        }
+        else if(item.playSong)
+        {
+            hasDuration = true;
+
+            textDuration.textContent = getLengthOfSongString(item);
+        }
+    }
 
     if(imgSRC)
     {
@@ -240,7 +258,17 @@ function createMenuItem(item)
     span.classList.add('text_main');
     span.textContent = item.text;
 
+    if(item.id === 'settings')
+    {
+        li.classList.add('settings');
+        li.addEventListener('click', openSettings);
+    }
+
     imageWrapper.appendChild(img);
+    if(hasDuration)
+    {
+        imageWrapper.appendChild(textDuration);
+    }
     div.appendChild(imageWrapper);
     div.appendChild(span);
     li.appendChild(div);
@@ -262,13 +290,14 @@ function createMenuItem(item)
                         ul.classList.remove('sub_menu');
                     }
                 }
-                sidebar.style.width = (widthMenuInt * (findIndexPath(item, items).depth + 2)) + "px";
+                sidebar.style.width = (25 * (findIndexPath(item, items).depth + 2)) + "vh";
                 showSubMenu(item.children, ul);
             }
             else
             {
-                sidebar.style.width = (widthMenuInt*(findIndexPath(item, items).depth + 1)) + "px";
+                sidebar.style.width = (widthMenuInt*(findIndexPath(item, items).depth + 1)) + "vh";
             }
+            footer.style.width = 'calc(100vw - ' + sidebar.style.width + ")";
             div.classList.add('selected');
         }
         let songSource = song[currentSource].src;
@@ -283,6 +312,18 @@ function createMenuItem(item)
         li.addEventListener('click', function()
         {
             playSong(item);
+        })
+    }
+    else if(item.id !== 'settings')
+    {
+        li.addEventListener('click', function()
+        {
+            let playItem = item;
+            for(let i = 0; (i < 5) && playItem.children; i++)
+            {
+                playItem = cycleLowerIndex(playItem);
+            }
+            playSong(playItem);
         })
     }
 
@@ -360,6 +401,23 @@ function createMenuItem(item)
     });
 
     return li;
+}
+
+function makeStringFromTime(time)
+{
+    let durationSeconds = Math.floor(time);
+    let durationMinutes = Math.floor(durationSeconds / 60);
+    let durationHours = Math.floor(durationMinutes / 60);
+    durationSeconds -= durationMinutes * 60;
+    durationMinutes -= durationHours*60;
+    if(durationHours)
+    {
+        return durationHours.toString() + ":" + durationMinutes.toString().padStart(2, '0') + ":" + durationSeconds.toString().padStart(2, '0');
+    }
+    else
+    {
+        return durationMinutes.toString() + ":" + durationSeconds.toString().padStart(2, '0');
+    }
 }
 
 function createMenu(id)
@@ -450,11 +508,13 @@ function createMenu(id)
                 sub_menu.collapseSubMenu();
             }
         }
-        sidebar.style.width = (widthMenuInt*getNumberFromId(id)) + "px";
+        sidebar.style.width = (widthMenuInt*getNumberFromId(id)) + "vh";
         if((widthMenuInt*getNumberFromId(id)) === 250)
         {
             collapseSidebar();
         }
+
+        footer.style.width = 'calc(100vw - ' + sidebar.style.width + ")";
 
         ul.remove();
     }
@@ -529,6 +589,19 @@ function findItemById(id, items)
 
 function getNumberFromId(id)
 {
+    /*if(id === "items_main")
+    {
+        return 0;
+    }
+    const match = id.match(/sub-menu_(\d+)/);
+    if (match)
+    {
+        return parseInt(match[1], 10);
+    }
+    else
+    {
+        throw new Error('Invalid ID format');
+    }*/
     let item = document.getElementById(id);
     let foundItem;
     if(!item)
@@ -626,6 +699,7 @@ function startSong()
     song[currentSource].currentTime = 0;
     song[currentSource].play().then(() =>{
 
+        document.getElementById('textTotalTime').textContent = getLengthOfSongString(findItemFromSong (song[currentSource].src, items));
         resumeRotation();
         if(nextSongTimeout)
         {
@@ -640,8 +714,6 @@ function startSong()
         }
         removePlayOverlay();
         addPlayOverlay(song[currentSource].src);
-        /*console.log("Total length: " + currentLength);
-        console.log("Song " + findItemFromSong(song[currentSource].src, items).id + " length: " + song[currentSource].duration)*/
         currentLength += song[currentSource].duration;
         nextSong = getNextSong();
         preloadSong(nextSong);
@@ -673,12 +745,15 @@ function seekedEventListener()
     {
         clearTimeout(nextSongTimeout);
     }
-    nextSongTimeout = setTimeout(() =>
+    if(repeatMode !== 'none')
     {
-        canRotate = false;
-        startTime3 = performance.now();
-        playNextSong(nextSong);
-    }, (song[currentSource].duration - song[currentSource].currentTime)*1000)
+        nextSongTimeout = setTimeout(() =>
+        {
+            canRotate = false;
+            startTime3 = performance.now();
+            playNextSong(nextSong);
+        }, (song[currentSource].duration - song[currentSource].currentTime)*1000)
+    }
     if(((song[currentSource].duration - song[currentSource].currentTime)*1000) > 20)
     {
         if(rotateTimeout)
@@ -722,7 +797,10 @@ function addPlayOverlay(song)
         overlay[0] = document.createElement('img');
         overlay[0].classList.add('overlayImage');
         overlay[0].src = 'img/playing-symbol.png';
-        overlay[0].style.filter = 'invert(100%)';
+        if(findInvertOverlay(child))
+        {
+            overlay[0].style.filter = 'invert(100%)';
+        }
         childItem.appendChild(overlay[0]);
     }
 
@@ -737,10 +815,23 @@ function addPlayOverlay(song)
             parentOverlay.classList.add('overlayImage');
             parentOverlay.src = 'img/playing-symbol.png';
             parentOverlay.alt = 'Playing';
-            parentOverlay.style.filter = 'invert(100%)';
+            if(findInvertOverlay(child))
+            {
+                parentOverlay.style.filter = 'invert(100%)';
+            }
             childItem.appendChild(parentOverlay);
         }
     }
+}
+
+function findInvertOverlay(item)
+{
+    let imgSRC = getImageFromObject(item);
+    if(imgSRC.overlay === 'white')
+    {
+        return 1;
+    }
+    return 0;
 }
 
 function removePlayOverlay()
@@ -795,8 +886,4 @@ document.addEventListener('keypress',(event) =>{
     {
         document.getElementById('btn_play').click();
     }
-    /*if(event.key === 'a')
-    {
-        replaceRecord();
-    }*/
 });
