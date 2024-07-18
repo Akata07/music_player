@@ -1,7 +1,7 @@
 const items = [
-    {id: 'bmth', icon: 'img/bmth/bmth_logo.png', text: 'BMTH', children:
+    {id: 'bmth', overlay: 'white', icon: 'img/bmth/bmth_logo.png', text: 'BMTH', children:
             [
-                { id: 'Post_Human:_Nex_Gen', icon: 'img/bmth/post_human_nex_gen.png', text: 'Post Human: Nex Gen', albumLength: 3327.071, children:
+                { id: 'Post_Human:_Nex_Gen',overlay: 'white', icon: 'img/bmth/post_human_nex_gen.png', text: 'Post Human: Nex Gen', albumLength: 3327.071, children:
                         [
                             { id: 'Dreamseeker', text: 'dreamseeker', class: 'song', playSong: 'music/bmth/post_human_nex_gen/dreamseeker.m4a', songStart: 0},
                             { id: 'Youtopia', text: 'YOUtopia', class: 'song', playSong: 'music/bmth/post_human_nex_gen/YOUtopia_0.m4a', songStart: 19.282},
@@ -20,19 +20,19 @@ const items = [
                             { id: 'DiE4U', text: 'Die4U ', class: 'song', playSong: 'music/bmth/post_human_nex_gen/DiE4U.m4a', songStart: 2687.248},
                             { id: 'DIg_It', text: 'Dig It', class: 'song', playSong: 'music/bmth/post_human_nex_gen/DIg_It.m4a', songStart: 2894.380},
                         ]},
-                {id: 'Post_Human:_Survival_Horror', icon: 'img/bmth/post_human_survival_horror.png', text: 'Post Human: Survival Horror', albumLength: 1924.616, children:
+                {id: 'Post_Human:_Survival_Horror', overlay: 'white', icon: 'img/bmth/post_human_survival_horror.png', text: 'Post Human: Survival Horror', albumLength: 1924.616, children:
                         [
                             {id: 'Dear_Diary', text: 'Dear Diary', class: 'song', playSong: 'music/bmth/post_human_survival_horror/Dear_Diary.m4a', songStart: 0},
                             {id: 'Parasite_Eve', text: 'Parasite Eve', class: 'song', playSong: 'music/bmth/post_human_survival_horror/Parasite_Eve.m4a', songStart: 195.349},
                             {id: 'Teardrops', text: 'Teardrops', class: 'song', playSong: 'music/bmth/post_human_survival_horror/Teardrops.m4a', songStart: 457.536},
                             {id: 'Obey', text: 'Obey', class: 'song', playSong: 'music/bmth/post_human_survival_horror/Obey.m4a', songStart: 672.563},
                             {id: 'Itch for the Cure', text: 'Itch for the Cure', class: 'song', playSong: 'music/bmth/post_human_survival_horror/Itch_For_The_Cure.m4a', songStart: 893.116},
-                            {id: 'Kingslayer', text: 'Kingslayer', class: 'song', playSong: 'music/bmth/post_human_survival_horror/Kingslayer.m4a', songStart: 976.866},
+                            {id: 'Kingslayer', text: 'Kingslayer', class: 'song', playSong: 'music/bmth/post_human_survival_horror/Kingslayer.m4a', songStart: 979.866},
                             {id: '1x1', text: '1x1', class: 'song', playSong: 'music/bmth/post_human_survival_horror/1x1.m4a', songStart: 1200.293},
                             {id: 'Ludens', text: 'Ludens', class: 'song', playSong: 'music/bmth/post_human_survival_horror/Ludens.m4a', songStart: 1409.737},
-                            {id: 'One_Day_the_Only_Butterflies', text: 'One Day the Only Butterflies Left Will Be in Your Chest as You March Towards Your Death', class: 'song', playSong: 'music/bmth/post_human_survival_horror/One_Day_The_Only_Butterflies_Left_Will_Be_In_Your_Chest_As_You_March_Towards_Your_Death....m4a', songStart: 1924.616},
+                            {id: 'One_Day_the_Only_Butterflies', text: 'One Day the Only Butterflies Left Will Be in Your Chest as You March Towards Your Death', class: 'song', playSong: 'music/bmth/post_human_survival_horror/One_Day_The_Only_Butterflies_Left_Will_Be_In_Your_Chest_As_You_March_Towards_Your_Death....m4a', songStart: 1688.121},
                         ]},
-                { id: 'amo', icon: 'img/bmth/amo.png', text: 'amo', albumLength: 3126.530, children:
+                { id: 'amo', overlay: 'white', icon: 'img/bmth/amo.png', text: 'amo', albumLength: 3126.530, children:
                         [
                             { id: 'i_apologise_if_you_feel_something', text: 'i apologise if you feel something', class: 'song', playSong: 'music/bmth/amo/i_apologise_if_you_feel_something.m4a', songStart: 0},
                             { id: 'MANTRA', text: 'MANTRA', class: 'song', playSong: 'music/bmth/amo/MANTRA.m4a', songStart: 139.668},
@@ -48,7 +48,7 @@ const items = [
                             { id: 'heavy_metal', text: 'heavy metal', class: 'song', playSong: 'music/bmth/amo/heavy_metal.m4a', songStart: 2533.283},
                             { id: 'i_don_t_know_what_to_say', text: 'i don’t know what to say', class: 'song', playSong: 'music/bmth/amo/i_don_t_know_what_to_say.m4a', songStart: 2774.005},
                         ]},
-                {id: 'thats_the_spirit', icon: 'img/bmth/thats_the_spirit.png', text: 'That\'s the Spirit', albumLength: 2703.911, children:
+                {id: 'thats_the_spirit', overlay: 'white', icon: 'img/bmth/thats_the_spirit.png', text: 'That\'s the Spirit', albumLength: 2703.911, children:
                         [
                         { id: 'doomed', text: 'Doomed', class: 'song', playSong: 'music/bmth/thats_the_spirit/Doomed.m4a', songStart: 0},
                         { id: 'happy_song', text: 'Happy Song', class: 'song', playSong: 'music/bmth/thats_the_spirit/Happy_Song.m4a', songStart: 274.145},
@@ -62,7 +62,7 @@ const items = [
                         { id: 'blasphemy', text: 'Blasphemy', class: 'song', playSong: 'music/bmth/thats_the_spirit/Blasphemy.m4a', songStart: 2127.851},
                         { id: 'oh_no', text: 'Oh No', class: 'song', playSong: 'music/bmth/thats_the_spirit/Oh_No.m4a', songStart: 2402.878},
                     ]},
-                { id: 'sempiternal', icon: 'img/bmth/sempeternal.png', text: 'Sempiternal', albumLength: 3241.0145, children:
+                { id: 'sempiternal', overlay: 'white', icon: 'img/bmth/sempeternal.png', text: 'Sempiternal', albumLength: 3241.0145, children:
                         [
                             { id: 'Can_You_Feel_My_Heart', text: 'Can You Feel My Heart', class: 'song', playSong: 'music/bmth/sempiternal/Can_You_Feel_My_Heart.m4a', songStart: 0},
                             { id: 'The_House_of_Wolves', text: 'The House of Wolves', class: 'song', playSong: 'music/bmth/sempiternal/The_House_Of_Wolves.m4a', songStart: 227.416},
@@ -80,9 +80,9 @@ const items = [
                         ]}
             ]
     },
-    {id: 'Sleep_Token',icon: 'img/sleep_token/sleep_token_logo.jpg',text: 'Sleep Token',children:
+    {id: 'Sleep_Token', overlay: 'white', icon: 'img/sleep_token/sleep_token_logo.jpg',text: 'Sleep Token',children:
             [
-                { id: 'Take_Me_Back_To_eden', icon: 'img/sleep_token/take_me_back_to_eden.jpg', text: 'Take Me Back to Eden', albumLength: 3811.929, children:
+                { id: 'Take_Me_Back_To_eden', overlay: 'black', icon: 'img/sleep_token/take_me_back_to_eden.jpg', text: 'Take Me Back to Eden', albumLength: 3811.929, children:
                         [
                             {id: 'Chokehold', text: 'Chokehold', class: 'song', playSong: 'music/sleep_token/take_me_back_to_eden/Chokehold.m4a', songStart: 0},
                             {id: 'The_Summoning', text: 'The Summoning', class: 'song', playSong: 'music/sleep_token/take_me_back_to_eden/The_Summoning.m4a', songStart: 304.134},
@@ -97,7 +97,7 @@ const items = [
                             {id: 'Take_Me_Back_to_Eden', text: 'Take Me Back to Eden', class: 'song', playSong: 'music/sleep_token/take_me_back_to_eden/Take_Me_Back_To_Eden.m4a', songStart: 2998.339},
                             {id: 'Euclid', text: 'Euclid', class: 'song', playSong: 'music/sleep_token/take_me_back_to_eden/Euclid.m4a', songStart: 3498.566}
                         ]},
-                { id: 'This_Place_Will_Become_Your_Tomb', icon: 'img/sleep_token/this_place_will_become_your_tomb.jpg', text: 'This Place Will Become Your Tomb', albumLength: 3125.382, children:
+                { id: 'This_Place_Will_Become_Your_Tomb', overlay: 'white', icon: 'img/sleep_token/this_place_will_become_your_tomb.jpg', text: 'This Place Will Become Your Tomb', albumLength: 3125.382, children:
                         [
                             {id: 'Atlantic', text: 'Atlantic', class: 'song', playSong: 'music/sleep_token/this_place_will_become_your_tomb/Atlantic.m4a', songStart: 0},
                             {id: 'Hypnosis', text: 'Hypnosis', class: 'song', playSong: 'music/sleep_token/this_place_will_become_your_tomb/Hypnosis.m4a', songStart: 293.012},
@@ -112,7 +112,7 @@ const items = [
                             {id: 'High_Water', text: 'High Water', class: 'song', playSong: 'music/sleep_token/this_place_will_become_your_tomb/High_Water.m4a', songStart: 2611.060},
                             {id: 'Missing_Limbs', text: 'Missing Limbs', class: 'song', playSong: 'music/sleep_token/this_place_will_become_your_tomb/Missing_Limbs.m4a', songStart: 2924.390},
                         ]},
-                { id: 'Sundowning', icon: 'img/sleep_token/sundowning.jpg', text: 'Sundowning', albumLength: 4055.328, children:
+                { id: 'Sundowning', overlay: 'white', icon: 'img/sleep_token/sundowning.jpg', text: 'Sundowning', albumLength: 4055.328, children:
                         [
                             {id: 'The_Night_Does_Not_Belong_to_God', text: 'The Night Does Not Belong to God', class: 'song', playSong: 'music/sleep_token/sundowning/The_Night_Does_Not_Belong_To_God.m4a', songStart: 0},
                             {id: 'The_Offering', text: 'The Offering', class: 'song', playSong: 'music/sleep_token/sundowning/The_Offering.m4a', songStart: 303.656},
@@ -132,5 +132,6 @@ const items = [
                             {id: 'I_Wanna_Dance_with_Somebody(room_below)', text: 'I Wanna Dance with Somebody (from the room below)', class: 'song', playSong: 'music/sleep_token/sundowning/I_Wanna_Dance_With_Somebody_(from_the_room_below).m4a', songStart: 3886.323},
                         ]},
             ]
-    }
+    },
+    {id: 'settings', icon: 'img/icon_settings.png', text: 'settings'}
 ];
