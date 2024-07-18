@@ -11,6 +11,8 @@ let animateNeedle;
 
 function startAnimation()
 {
+    document.getElementById('textCurrentTime').textContent = '--:--';
+    document.getElementById('textTotalTime').textContent = '--:--';
     //Starting the animation to change record/song
     if(!record || changeRecord)
     {
@@ -147,6 +149,11 @@ function rotationHandler()
     const degreesPerSecond = rpm * 6;
     let rotationAngle = (degreesPerSecond * currentTime) % 360;
     record.style.transform = "rotate(" + rotationAngle + "deg) translate(-50%,-50%)";
+    if((song[currentSource].currentTime / song[currentSource].duration)*100)
+    {
+        progressBar.value = (song[currentSource].currentTime / song[currentSource].duration)*100;
+        document.getElementById('textCurrentTime').textContent = makeStringFromTime(song[currentSource].currentTime);
+    }
     if(animateNeedle)
     {
         rotateNeedle(8 + (currentTime / findParent(currentSong.id, items).albumLength)*27);
@@ -225,4 +232,65 @@ function logSlider(position)
     let scale = (maxV-minV) / (maxP-minP);
 
     return Math.exp(minV + scale*(position-minP));
+}
+
+function cycleLowerIndex(album)
+{
+    let children = Array.from(album.children);
+    let currentSong = song[currentSource].src;
+    if(!currentSong)
+    {
+        return children[0];
+    }
+    let currentSongItem = findItemFromSong(currentSong, items);
+    let currentSongPath = findIndexPath(currentSongItem, items);
+    let albumPath = findIndexPath(album, items);
+    if(albumPath.indexPath[albumPath.indexPath.length - 1] !== currentSongPath.indexPath[albumPath.indexPath.length - 1])
+    {
+        return children[0];
+    }
+    currentSongPath.indexPath[albumPath.indexPath.length] += 1;
+    if(getItem(items, currentSongPath.indexPath))
+    {
+        return getItem(items, currentSongPath.indexPath);
+    }
+    else
+    {
+        return children[0];
+    }
+}
+
+function findNextItem(item)
+{
+    let itemPath = findIndexPath(item, items).indexPath;
+    itemPath[itemPath.length - 1] += 1;
+    let nextItem = getItem (items, itemPath)
+    if(nextItem)
+    {
+        return nextItem;
+    }
+}
+
+function getLengthOfSongString(item)
+{
+    return makeStringFromTime(getLengthOfSong(item))
+}
+
+function getLengthOfSong(item)
+{
+    if(findNextItem(item))
+    {
+        return findNextItem(item).songStart - item.songStart;
+    }
+    else
+    {
+        let parent = findParent(item.id, items);
+        if(parent)
+        {
+            if(parent.albumLength)
+            {
+                return parent.albumLength - item.songStart;
+            }
+        }
+    }
 }
