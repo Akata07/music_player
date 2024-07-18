@@ -778,10 +778,6 @@ function preloadSong(songs)
         preloadTimeout = setTimeout(() => {
             song[index].pause();
             song[index].volume = volume;
-            if(debug)
-            {
-                console.log("ready");
-            }
         }, 50)
     }
 }
