@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     volume -= 1;
     volume /= 100;
     volume = (volume > 1)?1:volume;
-    button = document.getElementById("btn_play");
+    button = document.getElementById("btn_play_record_player");
     button.addEventListener("click", () =>
     {
         togglePause();
@@ -211,12 +211,18 @@ function rotateNeedle(angle)
 
 function togglePause()
 {
+    if(!song[currentSource].src)
+    {
+        return;
+    }
     if(song[currentSource].paused)
     {
+        document.getElementById('imageBtnPausePlay').src = 'img/icon_pause_button.png';
         song[currentSource].play();
     }
     else
     {
+        document.getElementById('imageBtnPausePlay').src = 'img/icon_play_button.png';
         song[currentSource].pause();
     }
 }
@@ -249,15 +255,20 @@ function cycleLowerIndex(album)
     {
         return children[0];
     }
+    else if(albumPath.indexPath.length >= 2)
+    {
+        if(albumPath.indexPath[albumPath.indexPath.length - 2] !== currentSongPath.indexPath[albumPath.indexPath.length - 2])
+        {
+            return children[0];
+        }
+
+    }
     currentSongPath.indexPath[albumPath.indexPath.length] += 1;
     if(getItem(items, currentSongPath.indexPath))
     {
         return getItem(items, currentSongPath.indexPath);
     }
-    else
-    {
-        return children[0];
-    }
+    return children[0];
 }
 
 function findNextItem(item)
@@ -292,5 +303,112 @@ function getLengthOfSong(item)
                 return parent.albumLength - item.songStart;
             }
         }
+    }
+}
+
+function handleMarquee()
+{
+    let marquee = document.getElementById('marqueeSongName');
+    let marqueeText = marquee.querySelectorAll('li');
+    let newText = findItemFromSong(song[currentSource].src, items).text;
+    marqueeText[0].textContent = newText;
+
+    let animationTime = marqueeText[0].offsetWidth/40;
+
+    if(marqueeText[0].offsetWidth > (0.3*visualViewport.width))
+    {
+        marqueeText[1].textContent = newText;
+        marqueeText[0].classList.add('animated');
+        marqueeText[0].style.setProperty('--scroll-duration', animationTime + 's');
+        marqueeText[1].classList.add('animated');
+        marqueeText[1].style.setProperty('--scroll-duration', animationTime + 's');
+        marqueeText[1].classList.remove('invisible');
+    }
+    else
+    {
+        marqueeText[0].classList.remove('animated');
+        marqueeText[1].classList.remove('animated');
+        marqueeText[1].classList.add('invisible');
+    }
+    let currentItem = findItemFromSong(song[currentSource].src, items);
+    let artistItem = currentItem;
+    for(let i = 0; (i < 5) && (artistItem.class !== 'artist'); i++)
+    {
+        artistItem = findParent(artistItem.id, items);
+    }
+    let textArtist = artistItem.text;
+    if(currentItem.feat)
+    {
+        textArtist += " (feat." + currentItem.feat + ")";
+    }
+
+    marquee = document.getElementById('marqueeArtist');
+    marqueeText = marquee.querySelectorAll('li');
+    marqueeText[0].textContent = textArtist;
+
+    animationTime = marqueeText[0].offsetWidth/40;
+
+    if(marqueeText[0].offsetWidth > (0.3*visualViewport.width))
+    {
+        marqueeText[1].textContent = textArtist;
+        marqueeText[1].classList.add('animated');
+        marqueeText[1].style.setProperty('--scroll-duration', animationTime + 's');
+        marqueeText[0].classList.add('animated');
+        marqueeText[0].style.setProperty('--scroll-duration', animationTime + 's');
+        marqueeText[1].classList.remove('invisible');
+    }
+    else
+    {
+        marqueeText[0].classList.remove('animated');
+        marqueeText[1].classList.remove('animated');
+        marqueeText[1].classList.add('invisible');
+    }
+}
+
+function handlerControls(control)
+{
+    switch(control)
+    {
+        case 'previous':
+            playSong(getPreviousSong());
+            break;
+        case 'playPause':
+            togglePause();
+            break;
+        case 'next':
+            playSong(getNextSong());
+            break;
+    }
+}
+
+function controlsMouseDown(control)
+{
+    switch(control)
+    {
+        case 'previous':
+            document.getElementById('imageBtnPrevious').classList.add('clicked');
+            break;
+        case 'playPause':
+            document.getElementById('imageBtnPausePlay').classList.add('clicked');
+            break;
+        case 'next':
+            document.getElementById('imageBtnNext').classList.add('clicked');
+            break;
+    }
+}
+
+function controlsMouseUp(control)
+{
+    switch(control)
+    {
+        case 'previous':
+            document.getElementById('imageBtnPrevious').classList.remove('clicked');
+            break;
+        case 'playPause':
+            document.getElementById('imageBtnPausePlay').classList.remove('clicked');
+            break;
+        case 'next':
+            document.getElementById('imageBtnNext').classList.remove('clicked');
+            break;
     }
 }
