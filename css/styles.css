@@ -212,7 +212,7 @@ body
     border: 20vh solid #000;
 }
 
-#btn_play
+#btn_play_record_player
 {
     height: 8vh;
     width: 8vh;
@@ -226,13 +226,13 @@ body
     cursor: pointer;
 }
 
-#btn_play:hover
+#btn_play_record_player:hover
 {
     box-shadow: rgba(0, 0, 0, 0.1) 0 0.4vh 1.2vh;
     transform: translate(-50%, -51%);
 }
 
-#btn_play:active
+#btn_play_record_player:active
 {
     transform: translate(-50%, -47%);
 }
@@ -463,8 +463,6 @@ select
     position: absolute;
     bottom: 0;
     right: 0;
-    display: grid;
-    background-color: #FFF;
     height: 7.5vh;
     width: calc(100vw - 7vh);
     transition-duration: 0.1s;
@@ -478,7 +476,7 @@ select
     display: grid;
     grid-template-columns: 15% 70% 15%;
     background-color: #FFF;
-    height: 5vh;
+    height: 4vh;
     width: 100%;
     transition-duration: 0.1s;
     align-items: center;
@@ -512,6 +510,119 @@ select
     font-size: 2em;
 }
 
+#marqueeSongName
+{
+    margin-top: 0.5vh;
+    height: 3vh;
+    --gap: 2.5vh;
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: var(--gap);
+    position: relative;
+}
+
+#marqueeArtist
+{
+    height: 3vh;
+    --gap: 2.5vh;
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: var(--gap);
+    position: relative;
+}
+
+.marqueeContent
+{
+    list-style-type: none;
+    flex-shrink: 0;
+    justify-content: space-around;
+    gap: var(--gap);
+    padding: 0;
+    margin-top: 0.5vh;
+}
+
+.paused
+{
+    animation: none;
+}
+
+.invisible
+{
+    visibility: hidden;
+}
+
+:root
+{
+    --scroll-duration: 10s;
+}
+
+.animated
+{
+    animation: scroll var(--scroll-duration) linear infinite;
+    display: flex;
+}
+
+#image
+{
+    margin: 1vh;
+}
+
+#controls
+{
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    height: 7vh;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+}
+
+@keyframes scroll
+{
+    from
+    {
+        transform: translateX(0);
+    }
+    to
+    {
+        transform: translateX(calc(-100% - var(--gap)));
+    }
+}
+
+#info_controls
+{
+    display: grid;
+    transform: translate(-50%, 0);
+    background-color: #FFF;
+    border-top-left-radius: 1.5vh;
+    border-top-right-radius: 1.5vh;
+    grid-template-columns: 7vh 50% calc(50% - 7vh);
+    height: 7vh;
+    width: 60%;
+    position: absolute;
+    bottom: 4vh;
+    left: 50%;
+}
+
+.iconBtn
+{
+    height: 3vh;
+    width: 3vh;
+}
+
+.iconBtn:hover
+{
+    height: 3.5vh;
+    width: 3.5vh;
+}
+
+.clicked
+{
+    transform: translate(0, 10%);
+}
+
 @keyframes flyIn
 {
     from
@@ -530,7 +641,6 @@ select
         transform: scale(1) translate(0, 0);
     }
 }
-
 
 @keyframes flyOut
 {
