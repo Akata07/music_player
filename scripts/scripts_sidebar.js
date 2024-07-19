@@ -1,4 +1,3 @@
-
 let sidebar;
 
 let sidebarExpanded = false;
@@ -64,6 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         collapseSidebar();
     });
+
+    window.addEventListener('resize', () =>
+    {
+        handleMarquee();
+    })
 });
 
 function getNextSong()
@@ -75,14 +79,37 @@ function getNextSong()
     switch(repeatMode)
     {
         case 'album':
-            nextSong = getNextSongAlbum();
+            nextSong = getNextSongGeneric([1]);
             changeRecord = false;
             return nextSong;
         case 'artist':
-            nextSong = getNextSongArtist();
+            nextSong = getNextSongGeneric([1, 1]);
             return nextSong;
         case 'library':
-            nextSong = getNextSongLibrary();
+            nextSong = getNextSongGeneric([1, 1, 1]);
+            return nextSong;
+        case 'none':
+
+    }
+}
+
+function getPreviousSong()
+{
+    let nextSong;
+    changeRecord = false;
+    lastSong = song[currentSource].src;
+    immediateTransition = true;
+    switch(repeatMode)
+    {
+        case 'album':
+            nextSong = getPreviousSongGeneric([1]);
+            changeRecord = false;
+            return nextSong;
+        case 'artist':
+            nextSong = getPreviousSongGeneric([1, 1]);
+            return nextSong;
+        case 'library':
+            nextSong = getPreviousSongGeneric([1, 1, 1]);
             return nextSong;
         case 'none':
 
@@ -135,19 +162,32 @@ function getNextSongGeneric(incrementSteps)
     return getItem(items, itemPath.indexPath);
 }
 
-function getNextSongAlbum()
+function getPreviousSongGeneric(incrementSteps)
 {
-    return getNextSongGeneric([1]);
-}
+    let songSource = song[currentSource].src;
+    let songItem = findItemFromSong(songSource, items);
+    let itemPath = findIndexPath(songItem, items).indexPath;
+    let lastIndex = itemPath.length - 1;
 
-function getNextSongArtist()
-{
-    return getNextSongGeneric([1, 1]);
-}
-
-function getNextSongLibrary()
-{
-    return getNextSongGeneric([1, 1, 1]);
+    for (let step = 0; step < incrementSteps.length; step++)
+    {
+        itemPath[lastIndex - step] -= incrementSteps[step];
+        if(getItem(items, itemPath))
+        {
+            return getItem(items, itemPath);
+        }
+    }
+    let overflow = false;
+    for(let i = 0; i < (lastIndex + 1); i++)
+    {
+        if((itemPath[i] === -1) ||overflow)
+        {
+            let parentItem = getItem(items, itemPath.slice(0, i));
+            itemPath[i] = parentItem.children.length - 1;
+            overflow = true;
+        }
+    }
+    return getItem(items, itemPath);
 }
 
 function expandSidebar()
@@ -696,10 +736,14 @@ let currentLength = 0;
 
 function startSong()
 {
+    document.getElementById('imageBtnPausePlay').src = 'img/icon_pause_button.png';
     song[currentSource].currentTime = 0;
     song[currentSource].play().then(() =>{
 
         document.getElementById('textTotalTime').textContent = getLengthOfSongString(findItemFromSong (song[currentSource].src, items));
+        let imageInfo = document.getElementById('image_info');
+        imageInfo.src = getImageFromObject(findItemFromSong(song[currentSource].src, items), items).icon;
+        handleMarquee();
         resumeRotation();
         if(nextSongTimeout)
         {
@@ -880,6 +924,10 @@ document.addEventListener('keypress',(event) =>{
     }
     if(event.key === ' ')
     {
-        document.getElementById('btn_play').click();
+        document.getElementById('btn_play_record_player').click();
     }
+    /*if(event.key === 'a')
+    {
+        replaceRecord();
+    }*/
 });
