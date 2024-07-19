@@ -18,15 +18,33 @@
             <div id="tone_arm">
                 <div id="control"></div>
             </div>
-            <button id="btn_play"></button>
+            <button id="btn_play_record_player"></button>
             <label for="slider_volume"></label>
             <input id="slider_volume" type="range" min="0" max="1" step="0.01" value="0.7"/>
         </div>
     </div>
     <div id="footer">
         <div id="info_controls">
-            <div id="info"></div>
-            <div id="controls"></div>
+            <div id="image">
+                <img id="image_info" class="icon imageHidden" src="img/Blank.jpg" alt="Image of current song">
+            </div>
+            <div id="marqueeSongArtist">
+                <div id="marqueeSongName">
+                    <ul class="marqueeContent SongName"><li></li> </ul>
+                    <!-- Mirrors the content above -->
+                    <ul class="marqueeContent SongName" aria-hidden="true"><li></li></ul>
+                </div>
+                <div id="marqueeArtist">
+                    <ul class="marqueeContent ArtistName"><li></li> </ul>
+                    <!-- Mirrors the content above -->
+                    <ul class="marqueeContent ArtistName" aria-hidden="true"><li></li></ul>
+                </div>
+            </div>
+            <div id="controls">
+                <img id="imageBtnPrevious" class="iconBtn" src="img/previous_song_button.png" alt="Icon previous song" onclick="handlerControls('previous')" onmousedown="controlsMouseDown('previous')" onmouseup="controlsMouseUp('previous')">
+                <img id="imageBtnPausePlay" class="iconBtn" src="img/icon_pause_button.png" alt="Icon previous song" onclick="handlerControls('playPause')" onmousedown="controlsMouseDown('playPause')" onmouseup="controlsMouseUp('playPause')">
+                <img id="imageBtnNext" class="iconBtn" src="img/next_song_button.png" alt="Icon previous song" onclick="handlerControls('next')" onmousedown="controlsMouseDown('next')" onmouseup="controlsMouseUp('next')">
+            </div>
         </div>
         <div id="progressInfo">
             <div id="textCurrentTime" class="textTime">--:--</div>
