@@ -308,7 +308,7 @@ function getLengthOfSong(item)
 
 function handleMarquee()
 {
-    if(!song[currentSource])
+    if(!song[currentSource].src)
     {
         return;
     }
