@@ -308,6 +308,10 @@ function getLengthOfSong(item)
 
 function handleMarquee()
 {
+    if(!song[currentSource])
+    {
+        return;
+    }
     let marquee = document.getElementById('marqueeSongName');
     let marqueeText = marquee.querySelectorAll('li');
     let newText = findItemFromSong(song[currentSource].src, items).text;
